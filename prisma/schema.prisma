@@ -1,0 +1,45 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model bild {
+  bild_pk Int    @id @default(autoincrement())
+  bild    Bytes  @db.MediumBlob
+  name    String @db.VarChar(50)
+  buchkey Int?
+  buch    buch?  @relation(fields: [buchkey], references: [buch_pk], onDelete: Cascade, map: "buch_fk")
+
+  @@index([buchkey], map: "buch_fk")
+}
+
+model buch {
+  buch_pk    Int    @id @default(autoincrement())
+  text       String @db.Text
+  title      String @db.VarChar(200)
+  prompt     String @db.VarChar(1000)
+  next_part  Int?
+  userkey    Int
+  bild       bild[]
+  buch       buch?  @relation("buchTobuch", fields: [next_part], references: [buch_pk], onDelete: Cascade, map: "next_part_fk")
+  other_buch buch[] @relation("buchTobuch")
+  user       user   @relation(fields: [userkey], references: [user_pk], onDelete: Cascade, map: "user_fk")
+
+  @@index([next_part], map: "next_part_fk")
+  @@index([userkey], map: "user_fk")
+}
+
+model user {
+  Vorname  String @db.VarChar(25)
+  Nachname String @db.VarChar(25)
+  user_pk  Int    @id @default(autoincrement())
+  email    String @unique(map: "user_email_index") @db.VarChar(50)
+  password String @db.VarChar(600)
+  salt     String @db.VarChar(20)
+  username String @unique(map: "username_index") @db.VarChar(100)
+  buch     buch[]
+}
