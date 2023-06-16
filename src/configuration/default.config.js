@@ -1,24 +1,12 @@
 export default {
+  openai: {
+    organization: "org",
+    apiKey: "sk",
+  },
   api: {
-    root: '/api/v1/',
+    root: "/api/v1/",
   },
   auth: {
-    secret: 'asd',
-  },
-  db: {
-    HOST: 'localhost',
-    USER: 'Bilderbuchgenerator',
-    PASSWORD: 'password',
-    DB: 'bilderbuchgenerator',
-    dialect: 'mysql',
-    pool: {
-      max: 5,
-      min: 0,
-      acquire: 30000,
-      idle: 10000,
-    },
-  },
-  development: {
-    deployRoutes: true,
-  },
+    secret: "change_this_to_key",
+  }
 };

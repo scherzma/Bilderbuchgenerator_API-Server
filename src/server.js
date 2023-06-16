@@ -1,7 +1,8 @@
-import express from 'express';
-import cors from 'cors';
-import AuthRoutes from './routes/AuthRoutes';
-import BookRoutes from './routes/BookRoutes';
+import express from "express";
+import cors from "cors";
+import AuthRoutes from "./routes/AuthRoutes.js";
+import BookRoutes from "./routes/BookRoutes.js";
+
 
 const app = express();
 
@@ -11,18 +12,8 @@ app.use(express.urlencoded({ extended: true }));
 
 const routes = [];
 
-// database
-
-// db.sequelize.sync();
-// force: true will drop the table if it already exists
-// db.sequelize.sync({force: true}).then(() => {
-//   console.log('Drop and Resync Database with { force: true }');
-//   initial();
-// });
-
 // routes
 routes.push(new AuthRoutes(app));
-// routes.push(new PictureRoutes(app));
 routes.push(new BookRoutes(app));
 
 // set port, listen for requests

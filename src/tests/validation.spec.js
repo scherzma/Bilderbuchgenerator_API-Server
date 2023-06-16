@@ -9,15 +9,15 @@ const usernameInputs = [
     expect: true,
   },
   {
-    username: 'up1n5p4c3 rm',
+    username: 'aa rm',
     expect: false,
   },
   {
-    username: 'up1n5p4c3',
+    username: 'bb',
     expect: true,
   },
   {
-    username: 'up1n5p4c3 huhn',
+    username: 'cc huhn',
     expect: false,
   },
 ];

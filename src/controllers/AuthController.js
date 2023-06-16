@@ -1,21 +1,29 @@
-import jwt from 'jsonwebtoken';
-import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
-import { ResponseCode } from '../shared/types/Api';
-import { getAuthConfig } from '../configuration';
+import jwt from "jsonwebtoken";
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
+import { ResponseCode } from "../shared/types/Api.js";
+import { getAuthConfig } from "../configuration/index.js";
 
 const prisma = new PrismaClient();
 
 function generateJwtToken(username, email) {
-  return jwt.sign({
-    username, email,
-  }, getAuthConfig().secret);
+  return jwt.sign(
+    {
+      username,
+      email,
+    },
+    getAuthConfig().secret
+  );
 }
 
 const AuthController = {
   async login(req, res) {
     const { username } = req.body;
     const { password } = req.body;
+    const token = generateJwtToken(username, password);
+    res.status(ResponseCode.RESPONSE_CODE_Ok).send({
+      token,
+    });
     const user = await prisma.user.findUnique({
       where: {
         username,
@@ -25,7 +33,8 @@ const AuthController = {
       res.status(ResponseCode.RESPONSE_CODE_InternalServerError).send();
       return;
     }
-    if (!bcrypt.compareSync(password, user.password)) { // compare the hashed password stored in the db with the plain text password provided by the user
+    if (!bcrypt.compareSync(password, user.password)) {
+      // compare the hashed password stored in the db with the plain text password provided by the user
       res.status(ResponseCode.RESPONSE_CODE_Unauthorized).send();
       return;
     }
@@ -39,7 +48,7 @@ const AuthController = {
     const { username } = req.body;
     const { password } = req.body;
     const { email } = req.body;
-
+    const token = generateJwtToken(username, email);
     console.log(username, password, email);
     const userExist = await prisma.user.findUnique({
       where: {
@@ -57,9 +66,9 @@ const AuthController = {
         username,
         password: hashedPassword,
         email,
-        Vorname: 'Test',
-        Nachname: 'Test',
-        salt: 'Test',
+        Vorname: "Test",
+        Nachname: "Test",
+        salt: "Test",
       },
     });
     if (!user) {

@@ -1,7 +1,15 @@
-import defaultConfig from './default.config';
+import defaultConfig from "./default.config.js";
 
 function getConfig() {
   return defaultConfig;
+}
+
+export function getMemoryChacheConfig() {
+  return getConfig().memoryChache;
+}
+
+export function getOpenAIApiConfig() {
+  return getConfig().openai;
 }
 
 export function getAuthConfig() {

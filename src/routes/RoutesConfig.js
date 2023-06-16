@@ -1,9 +1,9 @@
-import { getApiConfig } from '../configuration';
+import { getApiConfig } from "../configuration/index.js";
 
 export default class RoutesConfig {
   apiRoot = getApiConfig().root;
 
-  apiName = '';
+  apiName = "";
 
   registeredRoutes = [];
 
@@ -14,8 +14,8 @@ export default class RoutesConfig {
     this.apiName = apiName;
     this.app.use((req, res, next) => {
       res.header(
-        'Access-Control-Allow-Headers',
-        'Origin, Content-Type, Accept',
+        "Access-Control-Allow-Headers",
+        "Origin, Content-Type, Accept"
       );
       next();
     });

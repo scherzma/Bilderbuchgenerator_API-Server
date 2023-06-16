@@ -1,13 +1,13 @@
-import { jwt } from 'jsonwebtoken';
-import { getAuthConfig } from 'src/configuration';
-import { ResponseCode } from 'src/shared/types/Api';
+import { jwt } from "jsonwebtoken";
+import { getAuthConfig } from "src/configuration";
+import { ResponseCode } from "src/shared/types/Api";
 
 const AuthMiddleware = {
   async verifyJWTToken(req, res, next) {
     const authHeader = req.headers.authorization;
 
     if (authHeader) {
-      const token = authHeader.split(' ')[1];
+      const token = authHeader.split(" ")[1];
 
       jwt.verify(token, getAuthConfig().secret, (err, user) => {
         if (err) {
